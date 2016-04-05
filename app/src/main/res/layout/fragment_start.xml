@@ -26,27 +26,15 @@
             android:layout_below="@+id/title"
             android:layout_margin="20dp">
 
+
             <Button
-                android:id="@+id/checkbutton"
+                android:id="@+id/schedulebutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_margin="10dp"
                 android:background="@drawable/buttonbg"
                 android:padding="10dp"
-                android:text="Check Reminders"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
-
-            <Button
-                android:id="@+id/historybutton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/checkbutton"
-                android:layout_margin="10dp"
-                android:background="@drawable/buttonbg"
-                android:padding="10dp"
-                android:text="History"
+                android:text="Schedule"
                 android:textColor="@color/black"
                 android:textSize="24sp" />
 
@@ -54,7 +42,7 @@
                 android:id="@+id/exitbutton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/historybutton"
+                android:layout_below="@+id/schedulebutton"
                 android:layout_margin="10dp"
                 android:background="@drawable/buttonbg"
                 android:padding="10dp"

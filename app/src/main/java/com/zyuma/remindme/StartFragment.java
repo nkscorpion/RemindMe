@@ -31,11 +31,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
 
         mTitle = (TextView) view.findViewById(R.id.title);
 
-        mCheckButton = (Button) view.findViewById(R.id.checkbutton);
-        //mStartButton.setTypeface(MainActivity.lobster_font);
-        mCheckButton.setOnClickListener(this);
-
-        mHistoryButton = (Button) view.findViewById(R.id.historybutton);
+        mHistoryButton = (Button) view.findViewById(R.id.schedulebutton);
         //mHistoryButton.setTypeface(MainActivity.lobster_font);
         mHistoryButton.setOnClickListener(this);
 
@@ -53,15 +49,9 @@ public class StartFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
 
-            case R.id.checkbutton:
+            case R.id.schedulebutton:
 
-//                fm.replace(R.id.container, CheckFragment.newInstance());
-//                fm.addToBackStack(null).commit();
-                break;
-
-            case R.id.historybutton:
-
-                fm.replace(R.id.container, HistoryFragment.newInstance());
+                fm.replace(R.id.container, ScheduleFragment.newInstance());
                 fm.addToBackStack(null).commit();
                 break;
 

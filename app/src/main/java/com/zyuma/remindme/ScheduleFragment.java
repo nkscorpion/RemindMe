@@ -1,38 +1,43 @@
 package com.zyuma.remindme;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
-public class HistoryFragment extends Fragment implements View.OnClickListener {
+public class ScheduleFragment extends Fragment implements View.OnClickListener {
 
     private TextView mTitle;
-    private Button mBackButton;
-    private int size;
 
-    public static HistoryFragment newInstance() {
-        HistoryFragment f = new HistoryFragment();
+    public static ScheduleFragment newInstance() {
+        ScheduleFragment f = new ScheduleFragment();
         return f;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history, container,
+        View view = inflater.inflate(R.layout.fragment_schedule, container,
                 false);
 
         mTitle = (TextView) view.findViewById(R.id.title);
         //mTitle.setTypeface(MainActivity.lobster_font);
 
-        mBackButton = (Button) view.findViewById(R.id.backbutton);
-        //mBackButton.setTypeface(MainActivity.lobster_font);
-        mBackButton.setOnClickListener(this);
-
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("FAB", "PRESSED");
+                FragmentTransaction fm = getFragmentManager().beginTransaction();
+                fm.replace(R.id.container, NewReminderFragment.newInstance());
+                fm.addToBackStack(null).commit();
+            }
+        });
         return view;
     }
 
