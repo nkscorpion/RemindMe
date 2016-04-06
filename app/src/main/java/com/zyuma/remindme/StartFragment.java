@@ -1,8 +1,10 @@
 package com.zyuma.remindme;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +18,7 @@ public class StartFragment extends Fragment implements View.OnClickListener {
 
     private TextView mTitle;
     private Button mCheckButton;
-    private Button mHistoryButton;
+    private Button mScheduleButton;
     private Button mExitButton;
 
     public static StartFragment newInstance() {
@@ -27,16 +29,22 @@ public class StartFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Home");
+
         View view = inflater.inflate(R.layout.fragment_start, container, false);
 
         mTitle = (TextView) view.findViewById(R.id.title);
+        Typeface champagne = Typeface.createFromAsset(getActivity().getAssets(), "fonts/cac_champagne.ttf");
+        Typeface raleway_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Raleway-Regular.ttf");
+        mTitle.setTypeface(champagne);
 
-        mHistoryButton = (Button) view.findViewById(R.id.schedulebutton);
-        //mHistoryButton.setTypeface(MainActivity.lobster_font);
-        mHistoryButton.setOnClickListener(this);
+        mScheduleButton = (Button) view.findViewById(R.id.schedulebutton);
+        mScheduleButton.setTypeface(raleway_regular);
+        mScheduleButton.setOnClickListener(this);
 
         mExitButton = (Button) view.findViewById(R.id.exitbutton);
-        //mStartButton.setTypeface(MainActivity.lobster_font);
+        mExitButton.setTypeface(raleway_regular);
         mExitButton.setOnClickListener(this);
 
         return view;

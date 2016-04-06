@@ -5,17 +5,19 @@ import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -28,9 +30,12 @@ import java.util.Random;
  */
 public class NewReminderFragment extends Fragment {
 
-    private TextView mTitle;
-    private EditText mReminderText;
-    private EditText mReminderTime;
+    private Typeface raleway_italian;
+    private Typeface raleway_regular;
+    private EditText mReminderField;
+    private EditText mReminderTimeField;
+    private String mReminder;
+    private int mReminderTime;
     private CustomNotification mNotification;
     private boolean flag_savingTaskRunning = false;
 
@@ -42,23 +47,38 @@ public class NewReminderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add Notification");
+
         View view = inflater.inflate(R.layout.fragment_new_reminder, container, false);
 
-        mTitle = (TextView) view.findViewById(R.id.title);
-        //mTitle.setTypeface(MainActivity.lobster_font);
-        mReminderText = (EditText) view.findViewById(R.id.reminder_text);
-        mReminderTime = (EditText) view.findViewById(R.id.reminder_time);
+        raleway_regular = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Raleway-Regular.ttf");
+        raleway_italian = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Raleway-Italic.ttf");
+
+        mReminderField = (EditText) view.findViewById(R.id.reminder_text);
+        mReminderField.setTypeface(raleway_regular);
+        mReminderTimeField = (EditText) view.findViewById(R.id.reminder_time);
+        mReminderTimeField.setTypeface(raleway_regular);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("FAB", "" + mReminderText.getText().toString());
+                Log.i("FAB", "" + mReminderField.getText().toString());
                 // TO DO: Collect text and time and save to database and go back. Maybe a toast?
 
-                Random r = new Random();
-                int id = r.nextInt(9999 - 0) + 0;
-                scheduleNotification(id, mReminderText.getText().toString(), Integer.parseInt(mReminderTime.getText().toString()));
+                mReminder = mReminderField.getText().toString();
+                try {
+                    mReminderTime = Integer.parseInt(mReminderTimeField.getText().toString());
+                    Random r = new Random();
+                    int id = r.nextInt(9999 - 0) + 0;
+                    scheduleNotification(id, mReminder, mReminderTime);
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    fm.popBackStack();
+
+                } catch (NumberFormatException e) {
+                    showToast("Enter valid time");
+                }
 
             }
         });
@@ -99,14 +119,11 @@ public class NewReminderFragment extends Fragment {
         mNotification.setWaitTime(time);
         mNotification.setReminderTime(getReminderTime(time));
 
-
-
         if (!flag_savingTaskRunning) {
             flag_savingTaskRunning = true;
             new SaveToDatabaseTask((MainActivity) getActivity()).execute();
             Log.i("NEW", "Saved");
         }
-
 
         showToast("Reminder set for after " + Integer.toString(time) + " seconds");
     }

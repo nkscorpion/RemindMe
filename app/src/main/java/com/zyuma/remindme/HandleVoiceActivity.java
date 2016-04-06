@@ -13,8 +13,10 @@ import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 /**
@@ -101,6 +103,7 @@ public class HandleVoiceActivity extends Activity {
         notificationIntent.addCategory("android.intent.category.DEFAULT");
         notificationIntent.putExtra("REMINDER", reminder);
         notificationIntent.putExtra("ID", id);
+        notificationIntent.putExtra("REMINDER_TIME", getReminderTime(time));
 
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -113,7 +116,8 @@ public class HandleVoiceActivity extends Activity {
         mNotification.setID(id);
         mNotification.setReminder(reminder);
         mNotification.setWaitTime(time);
-        mNotification.setReminderTime(System.currentTimeMillis());
+        mNotification.setReminderTime(getReminderTime(time));
+        Log.i("VOICE", "" + getReminderTime(time));
 
         if (!flag_savingTaskRunning) {
             flag_savingTaskRunning = true;
@@ -121,7 +125,26 @@ public class HandleVoiceActivity extends Activity {
             Log.i("WITH VOICE", "Saved");
         }
 
+        // TODO:Voice response for completion
+//        Prompt prompt = new Prompt("Reminder scheduled");
+//        CompleteVoiceRequest request = new CompleteVoiceRequest(prompt, null);
+//        if (isVoiceInteraction()) {
+//            getVoiceInteractor().submitRequest(request);
+//        }
+//        else Log.i("VOICE", "not voice interaction");
+//
+        // Toast for completion
         showToast("Reminder set for after " + Integer.toString(time) + " seconds");
+    }
+
+    private long getReminderTime(int time) {
+        long reminderTime = System.currentTimeMillis() + ((long) (time*1000));
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+        Date currentDate = new Date(System.currentTimeMillis());
+        Date resultDate = new Date(reminderTime);
+        Log.i("NOW", sdf.format(currentDate));
+        Log.i("FUTURE", sdf.format(resultDate));
+        return reminderTime;
     }
 
     private class SaveToDatabaseTask extends AsyncTask<Void, Void, Void> {

@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
@@ -18,6 +20,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private String mReminder;
     private int mID;
     private long mReminderTime;
+    private int color = 0x9B26AF;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -42,6 +45,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentText("at: " + sdf.format(resultTime))
                 .setTicker("New Message Alert!")
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setColor(color)
+                .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
+                .setLights(Color.RED, 3000, 3000)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setContentIntent(pendingIntent).build();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

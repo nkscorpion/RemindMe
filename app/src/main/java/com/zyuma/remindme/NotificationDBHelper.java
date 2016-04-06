@@ -22,11 +22,11 @@ public class NotificationDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "scheduledNotificationDatabase";
 
     // Notification table name
-    private static final String TABLE_NOTIFICATIONS = "contacts";
+    private static final String TABLE_NOTIFICATIONS = "table_notifications";
 
-    // Contacts Table Columns names
+    // Notifications Table Columns names
     private static final String KEY_ID = "id";
-    private static final String KEY_REMINDER = "name";
+    private static final String KEY_REMINDER = "reminder";
     private static final String KEY_WAIT_TIME = "wait_time";
     private static final String KEY_REMINDER_TIME = "reminder_time";
 

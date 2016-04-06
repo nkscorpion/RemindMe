@@ -5,22 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:layout_margin="5dp"
-        android:layout_marginTop="17dp"
-        android:text="New Reminder"
-        android:textSize="32sp" />
-
     <EditText
         android:id="@+id/reminder_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
         android:layout_margin="20dp"
         android:hint="Remind you with what?"
         android:inputType="text|textNoSuggestions" />
@@ -42,6 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_check_black_24dp"/>
+        app:backgroundTint="@color/colorAccent"
+        android:src="@drawable/ic_check_white_24dp"/>
 
 </RelativeLayout>

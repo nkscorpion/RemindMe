@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,7 +20,6 @@ import java.util.Date;
 
 public class ScheduleFragment extends Fragment {
 
-    private TextView mTitle;
     private ArrayList<CustomNotification> mNotificationList;
     private ListView mListView;
 
@@ -33,11 +31,13 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Schedule");
+
         View view = inflater.inflate(R.layout.fragment_schedule, container,
                 false);
 
-        mTitle = (TextView) view.findViewById(R.id.title);
-        //mTitle.setTypeface(MainActivity.lobster_font);
+
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -106,9 +106,8 @@ public class ScheduleFragment extends Fragment {
                 }
             }
 
-            ArrayAdapter<String> a = new ArrayAdapter<String>(getActivity(),
-                    android.R.layout.simple_list_item_1, reminderList);
-            mListView.setAdapter(a);
+            ScheduleAdapter adapter = new ScheduleAdapter(getActivity(), mNotificationList);
+            mListView.setAdapter(adapter);
         }
     }
 }

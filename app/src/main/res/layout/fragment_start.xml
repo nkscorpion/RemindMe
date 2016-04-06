@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_centerInParent="true"
-    android:background="@color/blue1">
+    android:background="@color/white">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -16,14 +16,24 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
-            android:text="RemindMe"
-            android:textColor="@color/black"
-            android:textSize="64sp" />
+            android:text="Remind Me"
+            android:textColor="@color/colorPrimary"
+            android:textSize="96sp" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/title"
+            android:layout_margin="30dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:background="@color/colorAccent"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/title"
+            android:layout_below="@+id/line"
             android:layout_margin="20dp">
 
 
@@ -35,7 +45,7 @@
                 android:background="@drawable/buttonbg"
                 android:padding="10dp"
                 android:text="Schedule"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp" />
 
             <Button
@@ -47,7 +57,7 @@
                 android:background="@drawable/buttonbg"
                 android:padding="10dp"
                 android:text="Exit"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp" />
         </RelativeLayout>
     </RelativeLayout>
