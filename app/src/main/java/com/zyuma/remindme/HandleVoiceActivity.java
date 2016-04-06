@@ -2,12 +2,15 @@ package com.zyuma.remindme;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -25,6 +28,8 @@ public class HandleVoiceActivity extends Activity {
     private String mVoiceCommand;
     private String mReminder;
     private int mTime;
+    private CustomNotification mNotification;
+    private boolean flag_savingTaskRunning = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,6 +107,57 @@ public class HandleVoiceActivity extends Activity {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.SECOND, time);
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+
+        // Update the scheduled notification database
+        mNotification = new CustomNotification();
+        mNotification.setID(id);
+        mNotification.setReminder(reminder);
+        mNotification.setWaitTime(time);
+        mNotification.setReminderTime(System.currentTimeMillis());
+
+        if (!flag_savingTaskRunning) {
+            flag_savingTaskRunning = true;
+            new SaveToDatabaseTask(this).execute();
+            Log.i("WITH VOICE", "Saved");
+        }
+
         showToast("Reminder set for after " + Integer.toString(time) + " seconds");
+    }
+
+    private class SaveToDatabaseTask extends AsyncTask<Void, Void, Void> {
+
+        private HandleVoiceActivity activity;
+        private AlertDialog dialog;
+
+        public SaveToDatabaseTask(HandleVoiceActivity activity) {
+            super();
+            this.activity = activity;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("Saving");
+            builder.setView(new ProgressBar(activity));
+            builder.setCancelable(false);
+            if(dialog == null) {
+                dialog = builder.create();
+            }
+            dialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            NotificationDBHelper helper = new NotificationDBHelper(activity);
+            helper.addNotification(mNotification);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void v) {
+            dialog.dismiss();
+        }
+
     }
 }

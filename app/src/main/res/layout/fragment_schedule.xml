@@ -20,8 +20,9 @@
         android:id="@+id/list"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/backbutton"
         android:layout_below="@+id/title" />
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
