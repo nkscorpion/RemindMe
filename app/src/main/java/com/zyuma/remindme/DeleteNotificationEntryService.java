@@ -17,8 +17,8 @@ public class DeleteNotificationEntryService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Log.i("INTENTSERVICE", "before delete");
         mID = intent.getIntExtra("ID", 0);
+        Log.i("INTENTSERVICE", "ID: " + mID);
         NotificationDBHelper helper = new NotificationDBHelper(getApplicationContext());
         helper.deleteNotification(mID);
     }

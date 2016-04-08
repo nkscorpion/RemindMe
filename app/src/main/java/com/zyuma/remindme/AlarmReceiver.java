@@ -49,12 +49,13 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setVibrate(new long[]{1000, 1000, 1000, 1000, 1000})
                 .setLights(Color.RED, 3000, 3000)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setAutoCancel (true)
                 .setContentIntent(pendingIntent).build();
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(mID, notification);
 
-        Log.i("ALARM", "before INTENT SERVICE");
+        Log.i("ALARM", "ID: " + mID);
         Intent msgIntent = new Intent(context, DeleteNotificationEntryService.class);
         msgIntent.putExtra("ID", mID);
         context.startService(msgIntent);
