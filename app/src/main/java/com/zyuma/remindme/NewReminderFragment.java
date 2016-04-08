@@ -124,8 +124,10 @@ public class NewReminderFragment extends Fragment {
             new SaveToDatabaseTask((MainActivity) getActivity()).execute();
             Log.i("NEW", "Saved");
         }
-
-        showToast("Reminder set for after " + Integer.toString(time) + " seconds");
+        // Toast for completion
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+        Date resultTime = new Date(mNotification.getReminderTime());
+        showToast(mReminder + " for " + sdf.format(resultTime));
     }
 
     private long getReminderTime(int time) {

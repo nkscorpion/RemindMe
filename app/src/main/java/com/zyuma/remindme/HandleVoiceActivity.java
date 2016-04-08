@@ -46,11 +46,9 @@ public class HandleVoiceActivity extends Activity {
             if (intent.hasExtra(Intent.EXTRA_TEXT)) {
                 //mTitle = intent.getStringExtra("EXTRA_NAME");
                 mVoiceCommand = intent.getStringExtra(Intent.EXTRA_TEXT);
-                Log.i(TAG, "FOUND EXTRA_TEXT");
                 Log.i(TAG, mVoiceCommand);
 
                 if(parseVoiceCommand(mVoiceCommand)) {
-                    showToast(mReminder + " in " + Integer.toString(mTime));
                     Random r = new Random();
                     int id = r.nextInt(9999 - 0) + 0;
                     scheduleNotification(id, mReminder, mTime);
@@ -67,7 +65,7 @@ public class HandleVoiceActivity extends Activity {
     private Boolean parseVoiceCommand(String s) {
         String[] wordList = s.split(" ");
         if (!wordList[wordList.length-3].equals("in")) {
-            showToast("Try \"XXX in XXX seconds\"");
+            showToast("Try \"XXX in X seconds/minutes/etc\"");
             return false;
         }
         String time = wordList[wordList.length-2];
@@ -84,9 +82,22 @@ public class HandleVoiceActivity extends Activity {
             showToast("Enter valid time in seconds");
             return false;
         }
+        int unit;
+        Log.i("HANDLE", "" + wordList[wordList.length-1].length());
+        if(wordList[wordList.length-1].equals("second") || wordList[wordList.length-1].equals("seconds")) {
+            unit = 1;
+        } else if(wordList[wordList.length-1].equals("minute") || wordList[wordList.length-1].equals("minutes")){
+            unit = 60;
+        } else if(wordList[wordList.length-1].equals("hour") || wordList[wordList.length-1].equals("hours")) {
+            unit = 3600;
+        } else {
+            showToast("Try \"XXX in X seconds/minutes/etc\"");
+            return false;
+        }
 
         Log.i("SPLIT", reminder);
         mReminder = reminder;
+        mTime *= unit;
         return true;
     }
 
@@ -134,7 +145,9 @@ public class HandleVoiceActivity extends Activity {
 //        else Log.i("VOICE", "not voice interaction");
 //
         // Toast for completion
-        showToast("Reminder set for after " + Integer.toString(time) + " seconds");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd,yyyy HH:mm:ss");
+        Date resultTime = new Date(mNotification.getReminderTime());
+        showToast(mReminder + " for " + sdf.format(resultTime));
     }
 
     private long getReminderTime(int time) {
